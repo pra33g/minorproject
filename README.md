@@ -15,6 +15,7 @@
 <ul>
 <li>Server scripting: Node.js</li>
 <li>Web framework: Express.js</li>
+<li>Frontend: React</li>
 <li>Backend parser: Ghostscript Postscript Interpreter</li>
 </ul>
 
