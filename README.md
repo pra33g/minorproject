@@ -18,5 +18,6 @@
 <li>Backend parser: Ghostscript Postscript Interpreter</li>
 </ul>
 
-
+<h3>Detailed design</h3>
+https://is.gd/zF3ETH
 
