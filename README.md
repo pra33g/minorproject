@@ -1,7 +1,7 @@
 <strong>PDFSynth</strong>
 
 <h1>Install/Run</h1>
-npm install
+npm install<br>
 npm run dev
 <h1>PDFSynth Specification</h1>
 
