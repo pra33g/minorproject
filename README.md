@@ -2,7 +2,7 @@
 
 <h1>Install/Run this project (node required)</h1>
 1. npm install<br>
-2. npm run dev
+2. npm run dev or npm start
 <h1>PDFSynth Specification</h1>
 
 <h2>Features:</h2>
