@@ -1,29 +1,50 @@
 /*jshint esversion: 8 */
-//routes of url/bookmark
-const maxSize = 1024 * 1024;
-const mbSize = 1024 * 1024 ;
+//route: /bookmark
+const megaByte = 1024 * 1024 ; //bytes
+const maxSize = 10 * megaByte;
+//express handles the server and routing within server
 const express = require('express');
+//fs to get system filesystem access
 const fs = require('fs');
+//function to get a string with reason(meaning) of a http code
+const httpReason = require('http-status-codes').getReasonPhrase;
+//enum with http codes
+const httpCode = require('http-status-codes').StatusCodes;
+//handles file upload, makes file available in request
 const upload = require('express-fileupload');
+//
 const router = express.Router();
+
+
+
+
+//middleware to handle upload, some flags have been set
+let sizeTooLarge = false;
+
 router.use(upload({
+    //path to file created, if not exist
     createParentPath: true,
+    //filename preserver
     preserveExtension: true,
+    //limits to filesize impsosed
     limits: {fileSize: maxSize},
+    //transfer (client ->server) aborted if limit met
     abortOnLimit: true,
+    //function invoked when limit is met
     limitHandler: function(req, res, next){
-        console.log("Too big");
         sizeTooLarge = true;
     },
 }));
-router.get("/", (req, res)=>{
-    // res.status(200).json({mssg:"Welcome"});
-    res.status(200);
-});
-//upload bm file
-let uploads = 1;
 
-let sizeTooLarge = false;
+
+//handle get requests to /bookmark
+router.get("/", (req, res)=>{
+    
+    // res.redirect(httpCode.PERMANENT_REDIRECT, __dirname);
+    res.json(httpObject(httpCode.OK));
+});
+
+
 router.post("/", async (req, res) => { 
     try{
         if (req.files && req.files.pdfbm_upload.mimetype==='application/pdf'){
@@ -32,42 +53,30 @@ router.post("/", async (req, res) => {
             pdf.name = pdf.name.replace(' ','-');
             if (sizeTooLarge){
                 sizeTooLarge = false;
-                res.json({"http":"413"});
+                res.json(httpObject(httpCode.REQUEST_TOO_LONG));
             } else {
                 console.log('success upload ' + pdf.name);
                 pdf.mv(__dirname+"/upload/"+pdf.name);
-                res.json({"http":"201"});
+                //file has been saved with name pdf.name
+                res.json(httpObject(httpCode.CREATED));
             }
-            // res.json({"response":"ok"});
-            //file has been saved with name pdf.name
 
         } else {
-            console.log('invalid mime');
-            res.json({"response":"invalid mime [pdf]"});
-
+            res.json(httpObject(httpCode.NOT_ACCEPTABLE));
         }
         
         
     } catch (e) {
-        console.log(req.body, e, "\n\nXXX\n\n");
-        res.sendStatus(500);
+        console.log(req.body, e);
+        res.json(httpCode.INTERNAL_SERVER_ERROR);
     }    
 });
 
-module.exports = router;
 
-function checkFileExists(path){
-    let ret;
-    fs.access(path, fs.constants.F_OK,(err)=>{
-        if(err){
-            console.log("not exist, created");
-            uploads++;
-            ret = false;
-        } else {
-            console.log("exists, upload++", uploads);
-            uploads++;
-            ret = true;
-        }
-    });
-    return ret;
+//returns a js object format {HTTPCode: Meaning} 
+//example {'404': 'Resource not found'}
+function httpObject(code){
+    return {[code]:httpReason(code)};
 }
+
+module.exports = router;
