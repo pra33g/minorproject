@@ -1,4 +1,4 @@
-<strong>PDFSynth</strong>
+<strong>PDF-Z</strong>
 
 <h1>Install/Run this project (node required)</h1>
 1. npm install<br>
