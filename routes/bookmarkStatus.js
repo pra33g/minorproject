@@ -12,6 +12,8 @@ const upload = require('express-fileupload');
 //
 const router = express.Router();
 
+const log = console.log.bind(console);
+
 router.get("/", async function (req, res){
 
     console.log(`${req.method} /bookmark/bookmarkStatus`);
@@ -24,7 +26,8 @@ router.get("/", async function (req, res){
     res.write("retry: 1000\n\n");
     console.log("Emitted message");
     //emit sse
-    res.write(`data: `+"23"+"\n\n");
+    const json = {"sample":"sample"};
+    res.write(`data: `+JSON.stringify(json) +"\n\n");
     // foo(res);
 });
 

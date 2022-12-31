@@ -19,5 +19,5 @@ $('#form_bookmark').submit(
 );
 const source = new EventSource('/bookmark/bookmarkStatus');
 source.addEventListener("message", message => {
-    console.log("Got ", message);
+    console.log("Got ", JSON.parse(message.data));
 });
