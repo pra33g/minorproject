@@ -14,7 +14,8 @@ const httpCode = require('http-status-codes').StatusCodes;
 const upload = require('express-fileupload');
 //
 const router = express.Router();
-
+//
+const pdfjs = require('pdfjs-dist');
 
 
 
@@ -80,3 +81,24 @@ function httpObject(code){
 }
 
 module.exports = router;
+
+async function pageCountPDF(path){
+    let pages = -1;
+    const loadingTask = pdfjs.getDocument(path);
+    return loadingTask.promise;
+    // console.log("Loaded pdf in mem, pages" + pages);
+}
+
+
+// pageCountPDF(path).then(doc => {
+//     pages = doc.numPages;
+//     console.log("Loaded pdf in mem, pages" + pages);
+//     // res.json({"page":pages});
+//     return pages;
+// }).catch(e=>{
+//     console.log("Err reading pdf ", path, e);
+//     // res.json()
+//     return pages;
+// });
+
+// pageCountPDF(__dirname+"/upload/PDFMarkRecipes.pdf");
