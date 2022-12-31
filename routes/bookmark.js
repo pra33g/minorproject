@@ -1,7 +1,7 @@
-/*jshint esversion: 8 */
+/*jshint esversion: 11 */
 //route: /bookmark
 const megaByte = 1024 * 1024 ; //bytes
-const maxSize = 10 * megaByte;
+const maxSize = 20 * megaByte;
 //express handles the server and routing within server
 const express = require('express');
 //fs to get system filesystem access
@@ -14,10 +14,10 @@ const httpCode = require('http-status-codes').StatusCodes;
 const upload = require('express-fileupload');
 //
 const router = express.Router();
-//
+//pdfjs to open pdf on server side
 const pdfjs = require('pdfjs-dist');
 
-
+const log = console.log.bind(console);
 
 //middleware to handle upload, some flags have been set
 let sizeTooLarge = false;
@@ -56,10 +56,20 @@ router.post("/", async (req, res) => {
                 sizeTooLarge = false;
                 res.json(httpObject(httpCode.REQUEST_TOO_LONG));
             } else {
-                console.log('success upload ' + pdf.name);
-                pdf.mv(__dirname+"/upload/"+pdf.name);
-                //file has been saved with name pdf.name
-                res.json(httpObject(httpCode.CREATED));
+                let pagesInPDF ;
+                // console.log( req.files);
+                let pdfPath = __dirname+"/upload/"+pdf.name;
+                pdf.mv(__dirname+"/upload/"+pdf.name, err => {
+                    if (err){
+                        log(err);
+                        res.json(httpObject(httpCode.UNPROCESSABLE_ENTITY));
+                        
+                    } else {
+                        //file has been saved with name pdf.name
+                        ppageCountPDF(pdfPath, res);
+                    }
+                });
+                 
             }
 
         } else {
@@ -76,8 +86,10 @@ router.post("/", async (req, res) => {
 
 //returns a js object format {HTTPCode: Meaning} 
 //example {'404': 'Resource not found'}
-function httpObject(code){
-    return {[code]:httpReason(code)};
+function httpObject(code, message=''){
+    message = message ?? '';
+    let delim = message && ','; 
+    return {[code]:`${httpReason(code)}${delim}${message}`};
 }
 
 module.exports = router;
@@ -89,12 +101,21 @@ function pageCountPDFPromise(path){
     return loadingTask.promise;
 }
 //wrapper to call pageCountPDFPromise (async)
-async function ppageCountPDF(path){
-    try {let p = await pageCountPDFPromise(path);
-    console.log("got ", p );}
-    catch(err){
+//example:  ppageCountPDF(__dirname+"/upload/PDFMarkRecipes.pdf");
+async function ppageCountPDF(path, res){
+    console.log("here");
+    try {
+        let {numPages: pages} = await pageCountPDFPromise(path);
+        let ret = httpObject(httpCode.CREATED);
+        ret["pages"] = pages;
+        res.json(ret);
+        return pages;
+    }
+    catch (err) {
         console.log(err);
+        let ret = httpObject(httpCode.INTERNAL_SERVER_ERROR,"PDFError check your pdf");
+        res.json(ret);
+        return -1;
     }
 }
 
- ppageCountPDF(__dirname+"/upload/PDFMarkRecipes.pdf");

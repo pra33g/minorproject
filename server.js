@@ -4,8 +4,10 @@
 const express = require('express');
 const upload = require('express-fileupload');
 const app = express();
-const router = require('./routes/bookmark');
+const routerBookmark = require('./routes/bookmark');
+const routerBookmarkUpdates = require('./routes/bookmarkStatus');
 const port = 5000;
+const log = console.log.bind(console);
 
 app.listen(port, ()=>console.log("ExpressServerPort " + port));
 
@@ -13,10 +15,11 @@ app.listen(port, ()=>console.log("ExpressServerPort " + port));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use("/", (req, res, next)=>{
-    console.log(req.method, req.url, req.body);
+    log(req.method, req.url, req.body);
     next();
 });
-app.use("/bookmark", router);
+app.use("/bookmark/bookmarkStatus", routerBookmarkUpdates);
+app.use("/bookmark", routerBookmark);
 
 
 //set homepage

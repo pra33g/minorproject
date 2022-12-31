@@ -17,3 +17,7 @@ $('#form_bookmark').submit(
         e.preventDefault();
     } 
 );
+const source = new EventSource('/bookmark/bookmarkStatus');
+source.addEventListener("message", message => {
+    console.log("Got ", message);
+});
