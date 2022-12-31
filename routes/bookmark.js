@@ -82,23 +82,19 @@ function httpObject(code){
 
 module.exports = router;
 
-async function pageCountPDF(path){
-    let pages = -1;
+
+//a function that returns a promise when done opening a pdf file
+function pageCountPDFPromise(path){
     const loadingTask = pdfjs.getDocument(path);
     return loadingTask.promise;
-    // console.log("Loaded pdf in mem, pages" + pages);
+}
+//wrapper to call pageCountPDFPromise (async)
+async function ppageCountPDF(path){
+    try {let p = await pageCountPDFPromise(path);
+    console.log("got ", p );}
+    catch(err){
+        console.log(err);
+    }
 }
 
-
-// pageCountPDF(path).then(doc => {
-//     pages = doc.numPages;
-//     console.log("Loaded pdf in mem, pages" + pages);
-//     // res.json({"page":pages});
-//     return pages;
-// }).catch(e=>{
-//     console.log("Err reading pdf ", path, e);
-//     // res.json()
-//     return pages;
-// });
-
-// pageCountPDF(__dirname+"/upload/PDFMarkRecipes.pdf");
+ ppageCountPDF(__dirname+"/upload/PDFMarkRecipes.pdf");
