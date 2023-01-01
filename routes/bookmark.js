@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
         if (req.files && req.files.pdfbm_upload.mimetype==='application/pdf'){
             const pdf = req.files.pdfbm_upload;
             const origName = pdf.name;
-            pdf.name = pdf.name.replace(' ','-');
+            pdf.name = pdf.name.replaceAll(' ','-');
             if (sizeTooLarge){
                 sizeTooLarge = false;
                 res.json(httpObject(httpCode.REQUEST_TOO_LONG));
