@@ -8,13 +8,13 @@ $('#form_bookmark').submit(
         let xhr = new XMLHttpRequest();
         xhr.upload.addEventListener("progress", progressHandler);
         xhr.open("POST", "/bookmark");
+        xhr.responseType = 'json';
         xhr.send(formData);
         xhr.upload.addEventListener("load", successUpload);
 
         //get response from server in json and log it
         xhr.onreadystatechange = ()=>{
             if(xhr.readyState == XMLHttpRequest.DONE){
-                xhr.responseType = 'json';
                 console.log(xhr.response);
             }
         };
