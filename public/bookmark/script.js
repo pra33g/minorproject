@@ -36,10 +36,6 @@ function progressHandler(event){
 function successUpload(event){
     let pUploadedBytesInfo = document.getElementById("pUploadedBytesInfo");
     pUploadedBytesInfo += "DONE";
-   //https://docs.google.com/gview?url=http://example.com/mypdf.pdf&embedded=true
-   let iPreviewPdf = document.getElementById("iPreviewPdf");
-   iPreviewPdf.setAttribute("src", "https://docs.google.com/gview?url=https://lcc.lt/assets/pdf_files/express-handbook.pdf");
-   iPreviewPdf.style.display = "block";
 }
 
 const source = new EventSource('/bookmark/bookmarkStatus');
