@@ -19,13 +19,13 @@
             <embed id="ePreviewPdf" src="" width="800px" height="2100px"/>
         </div>
 
-        <div id="bmInputContainer">
+        <div id="bmInputContainer" style="display:block">
             <div id="bmno_1">
                 <button class="inc" type="button" onclick="">[+->]</button>
                 <input class="pno"  type="number" onblur="checkPno(this)">
                 <input class="name" type="text" onblur="checkName(this)">
                 <button class="new" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
-                <button class="del" type="button" onclick="" >[-]</button>
+                <button class="del" type="button" onclick="deleteThisBm(this.parentElement.parentElement.id, this.parentElement.id)" >[-]</button>
             </div>
 
         </div>

@@ -3,7 +3,6 @@ const bmInputContainer = document.querySelector(".bmInputContainer");
 const log = console.log.bind(console);
 function checkPno(elem){
     let val = parseInt(elem.value);
-    log(elem.value)
     if (isNaN(val)){
         elem.value = 0;
     }
@@ -21,7 +20,21 @@ function checkName(elem){
         elem.value = elem.value.substring(0, maxLen);
     }
 }
-function addBmFieldBelow(elemParentId, elem){
+
+function deleteThisBm(elemParentParentId, elemParentId){
+    // log(elemParentId, elemParentParentId);
+    const ep = document.getElementById(elemParentId);
+    const epp = document.getElementById(elemParentParentId);
+    let count = epp.children.length;
+    if (count > 1){
+        epp.removeChild(ep);
+        for(let i = 0; i < epp.children.length; i++){
+            epp.children[i].id = `bmno_${i+1}`;
+        }
+    }
+}
+
+function addBmFieldBelow(elemParentId){
     // log(elemParentId);
     const parent = document.getElementById(elemParentId);
     const regex = /\d+/;
@@ -34,7 +47,7 @@ function addBmFieldBelow(elemParentId, elem){
         <input id="pno"  type="number" onblur="checkPno(this)">
         <input id="name" type="text" onblur="checkName(this)">
         <button id="new" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
-        <button id="del" type="button" onclick="" >[-]</button>
+        <button id="del" type="button" onclick="deleteThisBm(this.parentElement.parentElement.id, this.parentElement.id)" >[-]</button>
     </div>
     `;
     parent.insertAdjacentHTML("afterend", text);
