@@ -3,6 +3,7 @@ const bmInputContainer = document.querySelector(".bmInputContainer");
 const log = console.log.bind(console);
 function checkPno(elem){
     let val = parseInt(elem.value);
+    log(elem.value)
     if (isNaN(val)){
         elem.value = 0;
     }
@@ -22,7 +23,6 @@ function checkName(elem){
 }
 function addBmFieldBelow(elemParentId, elem){
     // log(elemParentId);
-    console.clear()
     const parent = document.getElementById(elemParentId);
     const regex = /\d+/;
     let nextIdNo = parseInt(elemParentId.match(regex)[0]) + 1;
@@ -31,8 +31,8 @@ function addBmFieldBelow(elemParentId, elem){
     let text = `
     <div id="bmno_${nextIdNo}">
         <button id="inc" type="button" onclick="">[+->]</button>
-        <input id="pno"  type="number" onblur="checkPno(this.id)">
-        <input id="name" type="text" onblur="checkName(this.id)">
+        <input id="pno"  type="number" onblur="checkPno(this)">
+        <input id="name" type="text" onblur="checkName(this)">
         <button id="new" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
         <button id="del" type="button" onclick="" >[-]</button>
     </div>
@@ -40,7 +40,6 @@ function addBmFieldBelow(elemParentId, elem){
     parent.insertAdjacentHTML("afterend", text);
     //fix any elem ids after this id
     let selection = document.querySelectorAll("[id^=bmno_]");
-    log(selection)
     for (let i = 0; i < selection.length; i++){
         selection[i].id = `bmno_${i+1}`;
     }
@@ -114,9 +113,6 @@ function previewPdf(name){
         ePreviewPdf.setAttribute("src", `null`);
         ePreviewPdf.style.show = "none";
     }
-    
-    // updateDiv("dPreviewPdf");
-
 }
 function showPageCount(count){
     let pPageCountInfo = document.getElementById("pPageCountInfo");
