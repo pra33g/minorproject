@@ -3,15 +3,41 @@ const bmInputContainer = document.querySelector(".bmInputContainer");
 const log = console.log.bind(console);
 function checkPno(id){
     const elem = document.getElementById(id);
+    let val = parseInt(elem.value);
+    if (isNaN(val)){
+        elem.value = 0;
+    }
+    if (val > pages){
+        elem.value = pages;
+    }
+    if (val < 0){
+        elem.value = 0;
+    }
+    
 }
-
-
-
-
-
-
-
-
+function checkName(id){
+    const elem = document.getElementById(id);
+    const maxLen = 80;
+    if (elem.value.length > maxLen){
+        elem.value = elem.value.substring(0, maxLen);
+    }
+}
+function addBmFieldBelow(id){
+    const elem = document.getElementById(id);
+    const parent = elem.parentElement;
+    const regex = /\d+/;
+    let nextIdNo = parseInt(id.match(regex)[0]) + 1;
+    let text = `
+    <div id="bmno_${nextIdNo}">
+        <button id="bmno_${nextIdNo}_inc" type="button" onclick="">[+->]</button>
+        <input id="bmno_${nextIdNo}_pno"  type="number" onblur="checkPno(this.id)">
+        <input id="bmno_${nextIdNo}_name" type="text" onblur="checkName(this.id)">
+        <button id="bmno_${nextIdNo}_new" type="button" onclick="addBmFieldBelow(this.id)">[+]</button>
+        <button id="bmno_${nextIdNo}_del" type="button" onclick="" >[-]</button>
+    </div>
+    `;
+    parent.insertAdjacentHTML("afterend", text);
+}
 
 const maxSize = 20 * 1024 * 1024;
 let pages = 10;
