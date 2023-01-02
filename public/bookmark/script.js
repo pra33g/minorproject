@@ -26,13 +26,20 @@ function progressHandler(event){
     let totalSize = event.total;
     let loadedSize = event.loaded;
 
-    let pStatus = document.getElementById("uploadedBytes");
-    pStatus.innerHTML = `Uploaded: ${loadedSize/totalSize * 100}`; 
+    let pUploadedBytesInfo = document.getElementById("pUploadedBytesInfo");
+    pUploadedBytesInfo.innerHTML = `
+        Uploaded: ${(loadedSize/(1024*1024)).toFixed(1)}MB 
+        of ${(totalSize/(1024*1024)).toFixed(1)}MB(${loadedSize/totalSize * 100}%)
+        `; 
 }
 //successful completion
 function successUpload(event){
-    let pStatus = document.getElementById("uploadedBytes");
-    pStatus += "DONE";
+    let pUploadedBytesInfo = document.getElementById("pUploadedBytesInfo");
+    pUploadedBytesInfo += "DONE";
+   //https://docs.google.com/gview?url=http://example.com/mypdf.pdf&embedded=true
+   let iPreviewPdf = document.getElementById("iPreviewPdf");
+   iPreviewPdf.setAttribute("src", "https://docs.google.com/gview?url=https://lcc.lt/assets/pdf_files/express-handbook.pdf");
+   iPreviewPdf.style.display = "block";
 }
 
 const source = new EventSource('/bookmark/bookmarkStatus');

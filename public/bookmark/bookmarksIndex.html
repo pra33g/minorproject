@@ -5,14 +5,20 @@
     </head>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    
     <body>
         <form id="form_bookmark" action="/bookmark" enctype="multipart/form-data" method="POST">
                 <input type="file" accept="application/pdf" name="pdfbm_upload" multiple="multiple"><br>
                 <input type="submit" value="Upload">
         </form>
-        <div id="div1">
-            <p id="uploadedBytes"></p>
+        <div id="dStatusUpload">
+            <p id="pUploadedBytesInfo"></p>
+            <p id="pPageCountInfo"></p>
         </div>
+        <div id="dPdf">
+
+        </div>
+
     </body>
 
     <script src="script.js"></script>
