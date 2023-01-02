@@ -1,4 +1,5 @@
 /*jshint esversion: 11 */
+const {sendSse} = require("./bookmarkStatus.js");
 //route: /bookmark
 const megaByte = 1024 * 1024 ; //bytes
 const maxSize = 20 * megaByte;
@@ -16,12 +17,10 @@ const upload = require('express-fileupload');
 const router = express.Router();
 //pdfjs to open pdf on server side
 const pdfjs = require('pdfjs-dist');
-
 const log = console.log.bind(console);
 
 //middleware to handle upload, some flags have been set
 let sizeTooLarge = false;
-
 router.use(upload({
     //path to file created, if not exist
     createParentPath: true,
@@ -86,7 +85,7 @@ router.post("/", async (req, res) => {
     } catch (e) {
         console.log(req.body, e);
         res.json(httpCode.INTERNAL_SERVER_ERROR);
-    }    
+    }
 });
 
 

@@ -93,7 +93,7 @@ function completeUpload(data){
 }
 
 
-const source = new EventSource('/bookmark/bookmarkStatus');
+const source = new EventSource('/bookmarkStatus');
 source.addEventListener("message", message => {
     console.log("Got ", JSON.parse(message.data));
 });

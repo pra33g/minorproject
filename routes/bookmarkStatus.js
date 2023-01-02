@@ -14,8 +14,10 @@ const router = express.Router();
 
 const log = console.log.bind(console);
 
-router.get("/", async function (req, res){
+let response ;
 
+router.get("/", async function (req, res){
+    response = res;
     console.log(`${req.method} /bookmark/bookmarkStatus`);
     res.set({
         "Cache-Control" : "no-cache",
@@ -24,13 +26,16 @@ router.get("/", async function (req, res){
     });
     res.flushHeaders();
     res.write("retry: 1000\n\n");
-    console.log("Emitted message");
+    console.log("SSE Initialized");
     //emit sse
     const json = {"sample":"sample"};
     res.write(`data: `+JSON.stringify(json) +"\n\n");
     // foo(res);
 });
+//this function only available after SSE initialized message in console
+function sendSse(json){
+    response.write(`data: `+JSON.stringify(json) +"\n\n");
+}
 
 
-
-module.exports = router;
+module.exports = {sendSse, router};

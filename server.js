@@ -10,7 +10,7 @@ const port = 5000;
 const log = console.log.bind(console);
 //routes
 const routerBookmark = require('./routes/bookmark');
-const routerBookmarkUpdates = require('./routes/bookmarkStatus');
+const routerBookmarkUpdates = require('./routes/bookmarkStatus').router;
 const preview = require('./routes/preview');
 //start app
 app.listen(port, ()=>console.log("ExpressServerPort " + port));
@@ -25,7 +25,7 @@ app.use("/", (req, res, next)=>{
 //cors enabled 
 app.use(cors());
 //routes
-app.use("/bookmark/bookmarkStatus", routerBookmarkUpdates);
+app.use("/bookmarkStatus", routerBookmarkUpdates);
 app.use("/bookmark", routerBookmark);
 app.use("/preview", preview);
 // app.use("/preview", express.static(__dirname+"/upload/ll.html"));
