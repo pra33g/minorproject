@@ -52,6 +52,12 @@ router.post("/", async (req, res) => {
             const pdf = req.files.pdfbm_upload;
             const origName = pdf.name;
             pdf.name = pdf.name.replaceAll(' ','-');
+            if (pdf.name.length > 25){
+                pdf.name = pdf.name
+                    .substring(0, 21)
+                    .concat(".pdf");
+            }
+
             if (sizeTooLarge){
                 sizeTooLarge = false;
                 res.json(httpObject(httpCode.REQUEST_TOO_LONG));
