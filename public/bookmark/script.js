@@ -1,8 +1,7 @@
 /*jshint esversion: 8 */
 const bmInputContainer = document.querySelector(".bmInputContainer");
 const log = console.log.bind(console);
-function checkPno(id){
-    const elem = document.getElementById(id);
+function checkPno(elem){
     let val = parseInt(elem.value);
     if (isNaN(val)){
         elem.value = 0;
@@ -15,29 +14,38 @@ function checkPno(id){
     }
     
 }
-function checkName(id){
-    const elem = document.getElementById(id);
-    const maxLen = 80;
+function checkName(elem){
+    const maxLen = 10;
     if (elem.value.length > maxLen){
         elem.value = elem.value.substring(0, maxLen);
     }
 }
-function addBmFieldBelow(id){
-    const elem = document.getElementById(id);
-    const parent = elem.parentElement;
+function addBmFieldBelow(elemParentId, elem){
+    // log(elemParentId);
+    console.clear()
+    const parent = document.getElementById(elemParentId);
     const regex = /\d+/;
-    let nextIdNo = parseInt(id.match(regex)[0]) + 1;
+    let nextIdNo = parseInt(elemParentId.match(regex)[0]) + 1;
+    // log(nextIdNo);
+
     let text = `
     <div id="bmno_${nextIdNo}">
-        <button id="bmno_${nextIdNo}_inc" type="button" onclick="">[+->]</button>
-        <input id="bmno_${nextIdNo}_pno"  type="number" onblur="checkPno(this.id)">
-        <input id="bmno_${nextIdNo}_name" type="text" onblur="checkName(this.id)">
-        <button id="bmno_${nextIdNo}_new" type="button" onclick="addBmFieldBelow(this.id)">[+]</button>
-        <button id="bmno_${nextIdNo}_del" type="button" onclick="" >[-]</button>
+        <button id="inc" type="button" onclick="">[+->]</button>
+        <input id="pno"  type="number" onblur="checkPno(this.id)">
+        <input id="name" type="text" onblur="checkName(this.id)">
+        <button id="new" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
+        <button id="del" type="button" onclick="" >[-]</button>
     </div>
     `;
     parent.insertAdjacentHTML("afterend", text);
+    //fix any elem ids after this id
+    let selection = document.querySelectorAll("[id^=bmno_]");
+    log(selection)
+    for (let i = 0; i < selection.length; i++){
+        selection[i].id = `bmno_${i+1}`;
+    }
 }
+
 
 const maxSize = 20 * 1024 * 1024;
 let pages = 10;
