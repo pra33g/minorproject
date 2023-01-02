@@ -60,7 +60,7 @@ router.post("/", async (req, res) => {
 
             if (sizeTooLarge){
                 sizeTooLarge = false;
-                res.json(httpObject(httpCode.REQUEST_TOO_LONG));
+                res.json(httpObject(httpCode.REQUEST_TOO_LONG, {"message":`Max size is ${maxSize/(1024*1024)}mb`}));
             } else {
                 let pagesInPDF ;
                 // console.log( req.files);
@@ -72,7 +72,7 @@ router.post("/", async (req, res) => {
                         
                     } else {
                         //file has been saved with name pdf.name
-                        ppageCountPDF(pdfPath, res);
+                        ppageCountPDF(pdfPath, res, pdf.name);
                     }
                 });
                  
@@ -92,10 +92,13 @@ router.post("/", async (req, res) => {
 
 //returns a js object format {HTTPCode: Meaning} 
 //example {'404': 'Resource not found'}
-function httpObject(code, message=''){
-    message = message ?? '';
-    let delim = message && ','; 
-    return {[code]:`${httpReason(code)}${delim}${message}`};
+function httpObject(code, additionalProp){
+    let ret = {"http":code};
+    ret["reason"] = httpReason(code);
+    for(const prop in additionalProp){
+        ret[prop] = additionalProp[prop];
+    }
+    return ret;
 }
 
 module.exports = router;
@@ -108,18 +111,19 @@ function pageCountPDFPromise(path){
 }
 //wrapper to call pageCountPDFPromise (async)
 //example:  ppageCountPDF(__dirname+"/upload/PDFMarkRecipes.pdf");
-async function ppageCountPDF(path, res){
-    console.log("here");
+async function ppageCountPDF(path, res, name){
     try {
         let {numPages: pages} = await pageCountPDFPromise(path);
-        let ret = httpObject(httpCode.CREATED);
-        ret["pages"] = pages;
-        res.json(ret);
+        // let ret = httpObject(httpCode.CREATED);
+        // ret["pages"] = pages;
+        // ret["name"] = name;
+        res.json(httpObject(httpCode.CREATED, {"pages":pages, "name":name, "message":"Successfully opened PDF"}));
+        // res.json(ret);
         return pages;
     }
     catch (err) {
         console.log(err);
-        let ret = httpObject(httpCode.INTERNAL_SERVER_ERROR,"PDFError check your pdf");
+        let ret = httpObject(httpCode.INTERNAL_SERVER_ERROR,{"message":"PDFError check your pdf"});
         res.json(ret);
         return -1;
     }

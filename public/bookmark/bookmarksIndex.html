@@ -8,15 +8,15 @@
     
     <body>
         <form id="form_bookmark" action="/bookmark" enctype="multipart/form-data" method="POST">
-                <input type="file" accept="application/pdf" name="pdfbm_upload" multiple="multiple"><br>
-                <input type="submit" value="Upload">
+                <input type="file" id="pdfbm_upload" accept="application/pdf" name="pdfbm_upload" multiple="multiple"><br>
+                <input type="submit" id="uploadButton" value="Upload" style="display: none">
         </form>
         <div id="dStatusUpload">
             <p id="pUploadedBytesInfo"></p>
             <p id="pPageCountInfo"></p>
         </div>
-        <div id="dPdf">
-
+        <div id="dPreviewPdf">
+            <embed id="ePreviewPdf" src="" width="800px" height="2100px"/>
         </div>
 
     </body>
