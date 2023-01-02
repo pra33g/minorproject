@@ -1,6 +1,20 @@
 /*jshint esversion: 8 */
-//send file to server
+const bmInputContainer = document.querySelector(".bmInputContainer");
+const log = console.log.bind(console);
+function checkPno(id){
+    const elem = document.getElementById(id);
+}
+
+
+
+
+
+
+
+
+
 const maxSize = 20 * 1024 * 1024;
+let pages = 10;
 $('#form_bookmark').submit(
     function( e ) {
         e.preventDefault();
@@ -17,7 +31,6 @@ $('#form_bookmark').submit(
         //get response from server in json and log it
         xhr.onreadystatechange = ()=>{
             if(xhr.readyState == XMLHttpRequest.DONE){
-                // console.log(xhr.response);
                 completeUpload(xhr.response);
             }
         };
@@ -34,7 +47,6 @@ $(document).ready(function() {
             uploadButton.style.display = "block";
         } else {
             pUploadedBytesInfo.innerHTML = `Max size ${maxSize/(1024*1024)}mb`;
-            console.log("here")
             uploadButton.style.display = "none";           
         }
         
@@ -65,7 +77,6 @@ function previewPdf(name){
     if (name){
         ePreviewPdf.setAttribute("src", `/preview?name=${name}`);
     } else {
-        console.log("here")
         ePreviewPdf.setAttribute("src", `null`);
         ePreviewPdf.style.show = "none";
     }
@@ -75,12 +86,13 @@ function previewPdf(name){
 }
 function showPageCount(count){
     let pPageCountInfo = document.getElementById("pPageCountInfo");
+    pages = count;
+    log(pages)
     pPageCountInfo.innerHTML = `Pages: ${count}`;
 }
 
 function completeUpload(data){
 
-    console.log( data);
     if(data.http == 201){
         showPageCount(data.pages);
         previewPdf(data.name);
