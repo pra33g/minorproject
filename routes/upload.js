@@ -102,7 +102,7 @@ module.exports = router;
 
 //a function that returns a promise when done opening a pdf file
 function pageCountPDFPromise(path){
-    sendSse({"message":"i am opening the file"})
+    sendSse({"message":"Opening file"})
     const loadingTask = pdfjs.getDocument(path);
     return loadingTask.promise;
 }

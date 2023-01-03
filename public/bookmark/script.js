@@ -214,10 +214,11 @@ function showPageCount(count){
     // log(pages);
     pPageCountInfo.innerHTML = `Pages: ${count}`;
 }
-
+let upFileName="";
 function completeUpload(data){
 
     if(data.http == 201){
+        upFileName = data.name;
         showPageCount(data.pages);
         previewPdf(data.name);
         bmInputContainer.style.display = "block";
@@ -235,44 +236,101 @@ function completeUpload(data){
     }
 }
 
-
+let convertedName = "";
 const source = new EventSource('/sse');
 source.addEventListener("message", message => {
     let got = JSON.parse(message.data);
+    displayMessage.innerText = got.message;
+    displayMessage.style.display = "block"
     console.log("Got ", got);
     
-    if ("SSE" in got){
+    if (got.message == "conversion-done"){
+        convertedName = got.name;
+        downloadPDF(convertedName);
     } else {
-        displayMessage.innerText = got.message;
-        
+ 
     }
 });
 // bmInputContainer.style.display = "block";
 // addBmFieldBelow("bmno_1");
+
+function downloadPDF(file){
+    let xhr = new XMLHttpRequest();
+
+
+    xhr.open("GET", `/download?name=${file}`);
+    xhr.send();
+    xhr.responseType = "blob";
+    xhr.onload = function(e) {
+        if (this.status == 200) {
+            // Create a new Blob object using the 
+            //response data of the onload object
+            var blob = new Blob([this.response], {type: 'image/pdf'});
+            //Create a link element, hide it, direct 
+            //it towards the blob, and then 'click' it programatically
+            let a = document.createElement("a");
+            a.style = "display: none";
+            document.body.appendChild(a);
+            //Create a DOMString representing the blob 
+            //and point the link element towards it
+            let url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = 'myFile.pdf';
+            //programatically click the link to trigger the download
+            a.click();
+            //release the reference to the file by revoking the Object URL
+            window.URL.revokeObjectURL(url);
+        }else{
+            //deal with your error state here
+        }
+}
+function saveBlob(blob, fileName) {
+    var a = document.createElement('a');
+    a.href = window.URL.createObjectURL(blob);
+    a.download = fileName;
+    a.dispatchEvent(new MouseEvent('click'));
+}
+
+
+
+}
+
 function generateBmInfo(){
     let ret = [];
     for (let child of bmInputContainer.children){
+        let pno = child.querySelector(".pno").value;
+        let title = child.querySelector(".name").value;
+        if(pno==='' || title ==='' ){
+            return -1;
+        }
         let rret = {};
-        rret["tabs"] = child.dataset.tablevel;
-        rret[child.querySelector(".pno").value] = child.querySelector(".name").value;
+        rret.tabs = child.dataset.tablevel;
+        rret.pno = pno;
+        rret.title = title;
         ret.push(rret);
     }
+    
     return ret;
 }
+/*
+{[{},{},{}], title}
 
+*/
 function sendBmJson(){
-    let ret = generateBmInfo();
-    if(ret && Object.keys(ret).length === 0 && Object.getPrototypeOf(ret) === Object.prototype){
-        displayMessage.innerText = "Empty bookmarks";
+    let bmInfo = generateBmInfo();
+    if(bmInfo == -1){
+        displayMessage.innerText = "Remove empty bookmarks";
         return;
     }
-    ret.data = ret;
+    let ret = {};
+    ret.data = bmInfo;
+    ret.name = upFileName;
+    log(ret);
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/add");
     xhr.responseType = "json";
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify(ret));
-    log(ret);
 
     xhr.onreadystatechange = ()=>{
         if(xhr.readyState == XMLHttpRequest.DONE){

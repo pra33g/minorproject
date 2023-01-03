@@ -23,7 +23,7 @@ router.get("/", async function (req, res){
     res.write("retry: 1000\n\n");
     console.log("SSE Initialized");
     //emit sse
-    const json = {"SSE":"SSE enabled"};
+    const json = {"message":"SSE enabled"};
     res.write(`data: `+JSON.stringify(json) +"\n\n");
     // foo(res);
 });
