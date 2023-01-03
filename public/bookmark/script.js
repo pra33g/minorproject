@@ -2,25 +2,30 @@
 /*jshint sub:true*/
 const bmInputContainer = document.querySelector("#bmInputContainer");
 const addBmButton = document.getElementById("sendInput");
-const pPageCountInfo = document.getElementById("pMessage");
+const displayMessage = document.getElementById("pMessage");
 const log = console.log.bind(console);
 function checkPno(elem){
     let val = parseInt(elem.value);
     if (isNaN(val)){
         elem.value = 0;
+        
     }
     if (val > pages){
         elem.value = pages;
+        displayMessage.innerText = `Can't bookmark over maximum (${pages}) pages`;
     }
     if (val < 0){
         elem.value = 0;
+        displayMessage.innerText = "Can't bookmark negative pages"
+
     }
     
 }
 function checkName(elem){
-    const maxLen = 10;
+    const maxLen = 30;
     if (elem.value.length > maxLen){
         elem.value = elem.value.substring(0, maxLen);
+        displayMessage.innerText = `Max bookmark name length is ${maxLen} characters.`;
     }
 }
 
@@ -180,7 +185,7 @@ function progressHandler(event){
     let totalSize = event.total;
     let loadedSize = event.loaded;
 
-    let pUploadedBytesInfo = document.getElementById("pUploadedBytesInfo");
+    let pUploadedBytesInfo = document.getElementById("pMessage");
     pUploadedBytesInfo.innerHTML = `Uploaded: ${(loadedSize/(1024*1024)).toFixed(1)}MB of ${(totalSize/(1024*1024)).toFixed(1)}MB(${loadedSize/totalSize * 100}%)`; 
 }
 //successful completion
@@ -230,7 +235,14 @@ function completeUpload(data){
 
 const source = new EventSource('/sse');
 source.addEventListener("message", message => {
-    console.log("Got ", JSON.parse(message.data));
+    let got = JSON.parse(message.data);
+    console.log("Got ", got);
+    
+    if ("SSE" in got){
+    } else {
+        displayMessage.innerText = got.message;
+        
+    }
 });
 // bmInputContainer.style.display = "block";
 // addBmFieldBelow("bmno_1");

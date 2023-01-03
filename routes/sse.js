@@ -1,14 +1,10 @@
 /*jshint esversion: 8 */
 
 const express = require('express');
-//fs to get system filesystem access
-const fs = require('fs');
 //function to get a string with reason(meaning) of a http code
 const httpReason = require('http-status-codes').getReasonPhrase;
 //enum with http codes
 const httpCode = require('http-status-codes').StatusCodes;
-//handles file upload, makes file available in request
-const upload = require('express-fileupload');
 //
 const router = express.Router();
 
@@ -27,7 +23,7 @@ router.get("/", async function (req, res){
     res.write("retry: 1000\n\n");
     console.log("SSE Initialized");
     //emit sse
-    const json = {"sample":"sample"};
+    const json = {"SSE":"SSE enabled"};
     res.write(`data: `+JSON.stringify(json) +"\n\n");
     // foo(res);
 });
@@ -35,6 +31,5 @@ router.get("/", async function (req, res){
 function sendSse(json){
     response.write(`data: `+JSON.stringify(json) +"\n\n");
 }
-
 
 module.exports = {sendSse, router};
