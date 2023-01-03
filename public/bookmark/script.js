@@ -33,17 +33,34 @@ function deleteThisBm(elemParentParentId, elemParentId){
         }
     }
 }
+function incIndent(elem, parentElem, parentParentElem){
+    let tablevel =  parseInt(parentElem.dataset.tablevel);
+    tablevel++;
+    parentElem.dataset.tablevel = tablevel;
+    fixTabs(parentParentElem);
 
+
+
+}
+
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
 function addBmFieldBelow(elemParentId){
     // log(elemParentId);
     const parent = document.getElementById(elemParentId);
+
     const regex = /\d+/;
     let nextIdNo = parseInt(elemParentId.match(regex)[0]) + 1;
     // log(nextIdNo);
 
     let text = `
-    <div id="bmno_${nextIdNo}">
-        <button id="inc" type="button" onclick="">[+->]</button>
+    <div id="bmno_${nextIdNo}" data-tablevel="${parent.dataset.tablevel}">
+        <button id="inc" type="button" onclick="incIndent(this, this.parentElement, this.parentElement.parentElement)">[+->]</button>
         <input id="pno"  type="number" onblur="checkPno(this)">
         <input id="name" type="text" onblur="checkName(this)">
         <button id="new" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
@@ -58,6 +75,36 @@ function addBmFieldBelow(elemParentId){
     }
 }
 
+function fixTabs(bmInputContainer){
+    console.clear()
+    let tabArr = [];
+    for(var child of bmInputContainer.children){
+        tabArr.push([child.id, parseInt(child.dataset.tablevel)]);
+    }
+    // log(tabArr);
+    let lastTabLevel = -1;
+
+    //-1 0 0 1 1 2 3 4 6 
+    for (let i = 0; i < tabArr.length; i++){
+        let tablevel = tabArr[i][1];
+        if (tablevel - lastTabLevel > 1){
+            tabArr[i][1] = lastTabLevel + 1;
+        } else {
+            //fine
+        }
+        // log(tabArr[i][1], lastTabLevel,  tabArr[i][1] - lastTabLevel);
+        lastTabLevel = tabArr[i][1];
+    }
+    let i = 0;
+    for(var child of bmInputContainer.children){
+        child.dataset.tablevel = tabArr[i][1];
+        i++;
+    }
+    for(let i of tabArr){
+        log(i);
+    }
+
+}
 
 const maxSize = 20 * 1024 * 1024;
 let pages = 10;
