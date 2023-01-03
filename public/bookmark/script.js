@@ -1,5 +1,8 @@
 /*jshint esversion: 8 */
+/*jshint sub:true*/
 const bmInputContainer = document.querySelector("#bmInputContainer");
+const addBmButton = document.getElementById("sendInput");
+const pPageCountInfo = document.getElementById("pMessage");
 const log = console.log.bind(console);
 function checkPno(elem){
     let val = parseInt(elem.value);
@@ -33,7 +36,7 @@ function deleteThisBm(elemParentParentId, elemParentId){
         }
     }
     fixTabs(epp);
-    showIndents()
+    showIndents();
 }
 function incIndent(elem, parentElem, parentParentElem){
     let tablevel =  parseInt(parentElem.dataset.tablevel);
@@ -52,7 +55,7 @@ function decIndent(elem, parentElem, parentParentElem){
         parentElem.dataset.tablevel = tablevel;
         fixTabs(parentParentElem);
     }
-    showIndents()
+    showIndents();
 }
 function addBmFieldBelow(elemParentId){
     // log(elemParentId);
@@ -127,7 +130,7 @@ $('#form_bookmark').submit(
         let formData = new FormData(this);
         let xhr = new XMLHttpRequest();
         xhr.upload.addEventListener("progress", progressHandler);
-        xhr.open("POST", "/bookmark");
+        xhr.open("POST", "/upload");
         xhr.responseType = 'json';
 
 
@@ -153,20 +156,25 @@ function resetBmInputContainer(){
 $(document).ready(function() {
     $('#pdfbm_upload').on('change', function(evt) {
         let size = this.files[0].size;
-        let pUploadedBytesInfo = document.getElementById("pUploadedBytesInfo");
+        let pUploadedBytesInfo = document.getElementById("pMessage");
         let uploadButton = document.getElementById("uploadButton");
         if(size <= maxSize){
             pUploadedBytesInfo.innerHTML = "Click to upload";
             uploadButton.style.display = "block";
         } else {
             pUploadedBytesInfo.innerHTML = `Max size ${maxSize/(1024*1024)}mb`;
-            uploadButton.style.display = "none";  
-            resetBmInputContainer();
+            uploadButton.style.display = "none";
         }
-        
-
+        resetUpload();
     });
-  });
+});
+
+function resetUpload(){
+    addBmButton.style.display = "none";  
+    resetBmInputContainer();
+    previewPdf(undefined);
+}
+
 //listen for progress updates
 function progressHandler(event){
     let totalSize = event.total;
@@ -189,16 +197,16 @@ function previewPdf(name){
     let ePreviewPdf = document.getElementById("ePreviewPdf");
     
     if (name){
-        ePreviewPdf.setAttribute("src", `/preview?name=${name}`);
+        ePreviewPdf.setAttribute("src", `/download?name=${name}`);
     } else {
         ePreviewPdf.setAttribute("src", `null`);
         ePreviewPdf.style.show = "none";
     }
 }
 function showPageCount(count){
-    let pPageCountInfo = document.getElementById("pPageCountInfo");
+    let pPageCountInfo = document.getElementById("pMessage");
     pages = count;
-    log(pages)
+    // log(pages);
     pPageCountInfo.innerHTML = `Pages: ${count}`;
 }
 
@@ -208,24 +216,24 @@ function completeUpload(data){
         showPageCount(data.pages);
         previewPdf(data.name);
         bmInputContainer.style.display = "block";
+        addBmButton.style.display = "block";
         
     }
     else {
         showPageCount(data.message);
         previewPdf(undefined);
         bmInputContainer.style.display = "none";
-
-
+        addBmButton.style.display = "none";
     }
 }
 
 
-const source = new EventSource('/bookmarkStatus');
+const source = new EventSource('/sse');
 source.addEventListener("message", message => {
     console.log("Got ", JSON.parse(message.data));
 });
-bmInputContainer.style.display = "block";
-addBmFieldBelow("bmno_1");
+// bmInputContainer.style.display = "block";
+// addBmFieldBelow("bmno_1");
 function generateBmInfo(){
     let ret = [];
     for (let child of bmInputContainer.children){

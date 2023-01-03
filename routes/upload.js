@@ -1,12 +1,10 @@
 /*jshint esversion: 11 */
-const {sendSse} = require("./bookmarkStatus.js");
-//route: /bookmark
+const {sendSse} = require("./sse.js");
+//route: /upload
 const megaByte = 1024 * 1024 ; //bytes
 const maxSize = 20 * megaByte;
 //express handles the server and routing within server
 const express = require('express');
-//fs to get system filesystem access
-const fs = require('fs');
 //function to get a string with reason(meaning) of a http code
 const httpReason = require('http-status-codes').getReasonPhrase;
 //enum with http codes
@@ -39,7 +37,6 @@ router.use(upload({
 
 //handle get requests to /bookmark
 router.get("/", (req, res)=>{
-    
     // res.redirect(httpCode.PERMANENT_REDIRECT, __dirname);
     res.json(httpObject(httpCode.OK));
 });

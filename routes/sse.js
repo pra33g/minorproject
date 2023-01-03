@@ -18,7 +18,6 @@ let response ;
 
 router.get("/", async function (req, res){
     response = res;
-    console.log(`${req.method} /bookmark/bookmarkStatus`);
     res.set({
         "Cache-Control" : "no-cache",
         "Content-Type" : "text/event-stream",
