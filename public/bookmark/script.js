@@ -256,3 +256,25 @@ function generateBmInfo(){
     }
     return ret;
 }
+
+function sendBmJson(){
+    let ret = generateBmInfo();
+    if(ret && Object.keys(ret).length === 0 && Object.getPrototypeOf(ret) === Object.prototype){
+        displayMessage.innerText = "Empty bookmarks";
+        return;
+    }
+    ret.data = ret;
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/add");
+    xhr.responseType = "json";
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify(ret));
+    log(ret);
+
+    xhr.onreadystatechange = ()=>{
+        if(xhr.readyState == XMLHttpRequest.DONE){
+            log(xhr.response);
+        }
+    };
+
+}

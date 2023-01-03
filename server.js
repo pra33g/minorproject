@@ -11,6 +11,7 @@ const port = 5000;
 const log = console.log.bind(console);
 //routes
 const upload = require('./routes/upload');
+const add = require('./routes/add');
 const sse = require('./routes/sse').router;
 const download = require('./routes/preview');
 //start app
@@ -43,6 +44,7 @@ app.use(cors());
 app.use(favicon(path.join(__dirname,"public","favicon","favicon.ico")));
 //routes
 app.use("/sse", sse);
+app.use("/add", add);
 app.use("/upload", upload);
 app.use("/download", download);
 app.use("/preview", express.static(__dirname+"/upload/"));
