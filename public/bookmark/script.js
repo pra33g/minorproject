@@ -54,12 +54,6 @@ function decIndent(elem, parentElem, parentParentElem){
     }
     showIndents()
 }
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
 function addBmFieldBelow(elemParentId){
     // log(elemParentId);
     const parent = document.getElementById(elemParentId);

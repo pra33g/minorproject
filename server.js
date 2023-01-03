@@ -13,7 +13,7 @@ const routerBookmark = require('./routes/bookmark');
 const routerBookmarkUpdates = require('./routes/bookmarkStatus').router;
 const preview = require('./routes/preview');
 //start app
-app.listen(port, ()=>console.log("ExpressServerPort " + port));
+app.listen(port, ()=>console.log("http://localhost:5000 " + port));
 
 //log requests
 app.use(express.json());
