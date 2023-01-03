@@ -79,7 +79,7 @@ function addBmFieldBelow(elemParentId){
 }
 
 function fixTabs(bmInputContainer){
-    console.clear()
+    // console.clear()
     let tabArr = [];
     for(var child of bmInputContainer.children){
         tabArr.push([child.id, parseInt(child.dataset.tablevel)]);
@@ -103,9 +103,9 @@ function fixTabs(bmInputContainer){
         child.dataset.tablevel = tabArr[i][1];
         i++;
     }
-    for(let i of tabArr){
-        log(i);
-    }
+    // for(let i of tabArr){
+    //     log(i);
+    // }
 
 }
 
