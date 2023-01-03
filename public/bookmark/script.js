@@ -1,5 +1,5 @@
 /*jshint esversion: 8 */
-const bmInputContainer = document.querySelector(".bmInputContainer");
+const bmInputContainer = document.querySelector("#bmInputContainer");
 const log = console.log.bind(console);
 function checkPno(elem){
     let val = parseInt(elem.value);
@@ -133,6 +133,13 @@ $('#form_bookmark').submit(
 
     } 
 );
+function resetBmInputContainer(){
+    let count = bmInputContainer.children.length;
+    for(let i = 0; i < count - 1; i++){
+        bmInputContainer.removeChild(bmInputContainer.lastChild);
+    }
+    bmInputContainer.style.display = "none";
+}
 $(document).ready(function() {
     $('#pdfbm_upload').on('change', function(evt) {
         let size = this.files[0].size;
@@ -143,7 +150,8 @@ $(document).ready(function() {
             uploadButton.style.display = "block";
         } else {
             pUploadedBytesInfo.innerHTML = `Max size ${maxSize/(1024*1024)}mb`;
-            uploadButton.style.display = "none";           
+            uploadButton.style.display = "none";  
+            resetBmInputContainer();
         }
         
 
@@ -189,11 +197,15 @@ function completeUpload(data){
     if(data.http == 201){
         showPageCount(data.pages);
         previewPdf(data.name);
+        bmInputContainer.style.display = "block";
         
     }
     else {
         showPageCount(data.message);
         previewPdf(undefined);
+        bmInputContainer.style.display = "none";
+
+
     }
 }
 
