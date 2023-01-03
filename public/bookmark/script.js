@@ -38,9 +38,17 @@ function incIndent(elem, parentElem, parentParentElem){
     tablevel++;
     parentElem.dataset.tablevel = tablevel;
     fixTabs(parentParentElem);
+}
+function decIndent(elem, parentElem, parentParentElem){
+    let tablevel =  parseInt(parentElem.dataset.tablevel);
+    tablevel--;
+    if(tablevel < 0){
+        parentElem.dataset.tablevel = 0;
 
-
-
+    } else {
+        parentElem.dataset.tablevel = tablevel;
+        fixTabs(parentParentElem);
+    }
 }
 
 addBmFieldBelow("bmno_1");
@@ -60,11 +68,12 @@ function addBmFieldBelow(elemParentId){
 
     let text = `
     <div id="bmno_${nextIdNo}" data-tablevel="${parent.dataset.tablevel}">
-        <button id="inc" type="button" onclick="incIndent(this, this.parentElement, this.parentElement.parentElement)">[+->]</button>
-        <input id="pno"  type="number" onblur="checkPno(this)">
-        <input id="name" type="text" onblur="checkName(this)">
-        <button id="new" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
-        <button id="del" type="button" onclick="deleteThisBm(this.parentElement.parentElement.id, this.parentElement.id)" >[-]</button>
+    <button class="inc" type="button" onclick="incIndent(this, this.parentElement, this.parentElement.parentElement)" >[+->]</button>
+    <button class="dec" type="button" onclick="decIndent(this, this.parentElement, this.parentElement.parentElement)" >[<+-]</button>
+    <input class="pno"  type="number" onblur="checkPno(this)">
+    <input class="name" type="text" onblur="checkName(this)">
+    <button class="new" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
+    <button class="del" type="button" onclick="deleteThisBm(this.parentElement.parentElement.id, this.parentElement.id)" >[-]</button>
     </div>
     `;
     parent.insertAdjacentHTML("afterend", text);
