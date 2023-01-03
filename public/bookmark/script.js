@@ -33,12 +33,14 @@ function deleteThisBm(elemParentParentId, elemParentId){
         }
     }
     fixTabs(epp);
+    showIndents()
 }
 function incIndent(elem, parentElem, parentParentElem){
     let tablevel =  parseInt(parentElem.dataset.tablevel);
     tablevel++;
     parentElem.dataset.tablevel = tablevel;
     fixTabs(parentParentElem);
+    showIndents();
 }
 function decIndent(elem, parentElem, parentParentElem){
     let tablevel =  parseInt(parentElem.dataset.tablevel);
@@ -50,8 +52,14 @@ function decIndent(elem, parentElem, parentParentElem){
         parentElem.dataset.tablevel = tablevel;
         fixTabs(parentParentElem);
     }
+    showIndents()
 }
-
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
+addBmFieldBelow("bmno_1");
 function addBmFieldBelow(elemParentId){
     // log(elemParentId);
     const parent = document.getElementById(elemParentId);
@@ -76,7 +84,15 @@ function addBmFieldBelow(elemParentId){
     for (let i = 0; i < selection.length; i++){
         selection[i].id = `bmno_${i+1}`;
     }
+    showIndents();
 }
+
+function showIndents(){
+    for(var child of bmInputContainer.children){
+        child.style.marginLeft = `${child.dataset.tablevel * 20}px`;
+    }
+}
+
 
 function fixTabs(bmInputContainer){
     // console.clear()
