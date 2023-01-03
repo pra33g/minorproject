@@ -91,7 +91,7 @@ function showIndents(){
 function fixTabs(bmInputContainer){
     // console.clear()
     let tabArr = [];
-    for(var child of bmInputContainer.children){
+    for(let child of bmInputContainer.children){
         tabArr.push([child.id, parseInt(child.dataset.tablevel)]);
     }
     // log(tabArr);
@@ -109,7 +109,7 @@ function fixTabs(bmInputContainer){
         lastTabLevel = tabArr[i][1];
     }
     let i = 0;
-    for(var child of bmInputContainer.children){
+    for(let child of bmInputContainer.children){
         child.dataset.tablevel = tabArr[i][1];
         i++;
     }
@@ -224,3 +224,15 @@ const source = new EventSource('/bookmarkStatus');
 source.addEventListener("message", message => {
     console.log("Got ", JSON.parse(message.data));
 });
+bmInputContainer.style.display = "block";
+addBmFieldBelow("bmno_1");
+function generateBmInfo(){
+    let ret = [];
+    for (let child of bmInputContainer.children){
+        let rret = {};
+        rret["tabs"] = child.dataset.tablevel;
+        rret[child.querySelector(".pno").value] = child.querySelector(".name").value;
+        ret.push(rret);
+    }
+    return ret;
+}
