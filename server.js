@@ -3,6 +3,8 @@
 //init app
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const favicon = require('serve-favicon');
 const app = express();
 const port = 5000;
 //misc
@@ -37,6 +39,8 @@ app.use("/", (req, res, next)=>{
 });
 //cors enabled 
 app.use(cors());
+//favicon
+app.use(favicon(path.join(__dirname,"public","favicon","favicon.ico")));
 //routes
 app.use("/sse", sse);
 app.use("/upload", upload);

@@ -18,6 +18,7 @@
     "http-status-codes": "^2.2.0",
     "jshint": "^2.13.6",
     "nodemon": "^2.0.20",
-    "pdfjs-dist": "^3.1.81"
+    "pdfjs-dist": "^3.1.81",
+    "serve-favicon": "^2.5.0"
   }
 }
