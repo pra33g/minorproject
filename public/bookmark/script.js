@@ -32,6 +32,7 @@ function deleteThisBm(elemParentParentId, elemParentId){
             epp.children[i].id = `bmno_${i+1}`;
         }
     }
+    fixTabs(epp);
 }
 function incIndent(elem, parentElem, parentParentElem){
     let tablevel =  parseInt(parentElem.dataset.tablevel);
@@ -51,13 +52,6 @@ function decIndent(elem, parentElem, parentParentElem){
     }
 }
 
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
-addBmFieldBelow("bmno_1");
 function addBmFieldBelow(elemParentId){
     // log(elemParentId);
     const parent = document.getElementById(elemParentId);
