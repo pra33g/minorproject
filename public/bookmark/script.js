@@ -95,7 +95,6 @@ function showIndents(){
     }
 }
 
-
 function fixTabs(bmInputContainer){
     // console.clear()
     let tabArr = [];
@@ -200,11 +199,12 @@ function previewPdf(name){
     //show pdf
     
     let ePreviewPdf = document.getElementById("ePreviewPdf");
+    ePreviewPdf.style.display = "block";
     
     if (name){
         ePreviewPdf.setAttribute("src", `/download?name=${name}`);
     } else {
-        ePreviewPdf.setAttribute("src", `null`);
+        ePreviewPdf.style.display = "none";
         ePreviewPdf.style.show = "none";
     }
 }
@@ -222,6 +222,9 @@ function completeUpload(data){
         previewPdf(data.name);
         bmInputContainer.style.display = "block";
         addBmButton.style.display = "block";
+
+        document.getElementById("form_bookmark").style.display = "none";
+
         
     }
     else {
