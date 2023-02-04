@@ -1,0 +1,213 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* background: #111; */
+  background-image: url("sus.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.signupSection {
+  /* background: url(https://source.unsplash.com/TV2gg2kZD1o/1600x800); */
+  background-image: url("./sus.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  margin-top: 25%;
+  margin-left: 50%;
+  transform: translate(-50%, -50%);
+  width: 118rem;
+  height: 57rem;
+  text-align: center;
+  display: flex;
+  color: white;
+  box-shadow: 3px 10px 20px 5px rgba(0, 0, 0, 0.5);
+}
+.image{
+  position: relative;
+  margin-top: 1%;
+  margin-left: 25%;
+  height: 246px;
+  width: 315px;
+}
+.info {
+  width: 45%;
+  background: rgba(20, 20, 20, 0.8);
+  padding: 10px 0;
+  border-right: 5px solid rgba(30, 30, 30, 0.8);
+}
+
+.info h2 {
+  padding-top: 30px;
+  font-weight: 300;
+}
+.info p {
+  font-size: 18px;
+}
+.info .icon {
+  font-size: 8em;
+  padding: 20px 0;
+  color: rgb(92, 182, 255);
+}
+
+.signupForm {
+  width: 100%;
+  padding: 30px 140px;
+  background: rgba(0, 26, 33, 0.29);
+  transition: 0.2s;
+}
+
+.signupForm h2 {
+  font-weight: 500;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.signupForm p {
+  font-weight: 300;
+}
+
+.signupForm:focus + .info {
+  width: 45%;
+  background: rgba(20, 20, 20, 0.8);
+  padding: 10px 0;
+  border-right: 5px solid rgba(30, 30, 30, 0.8);
+  display: none;
+}
+
+.inputFields {
+  margin: 15px 0;
+  font-size: 25px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  padding: 10px;
+  width: 500px;
+  border: 1px solid rgb(0, 101, 155);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background: rgba(20, 20, 20, 0.2);
+  color: white;
+  outline: none;
+}
+
+.inputFields1 {
+  margin: 15px 0;
+  font-size: 16px;
+  padding: 10px;
+  width: 188px;
+  border: 1px solid rgba(10, 180, 180, 1);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background: rgba(20, 20, 20, 0.2);
+  color: white;
+  outline: none;
+}
+
+.noBullet {
+  list-style-type: none;
+  padding: 0;
+}
+
+.join-btn {
+  border: 1px solid rgb(0, 157, 255);
+  background: rgba(20, 20, 20, 0.6);
+  font-size: 18px;
+  color: white;
+  margin-top: 0px;
+  padding: 2px 2px 4px 2px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.join-btn:hover {
+  background: rgba(20, 20, 20, 0.8);
+  padding: 9px 10px;
+}
+
+#pMessage{
+  border: 1px solid rgb(196, 248, 255);
+  background: rgba(0, 5, 50, 0.402);
+  font-size: 25px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  /* align-content: flex-start; */
+  margin-top: 43%;
+  margin-left: -67%;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition: 0.2s;
+  display: none;
+}
+
+#uploadButton {
+  border: 1px solid rgb(27, 166, 212);
+  background: rgba(20, 20, 20, 0.6);
+  font-size: 25px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: white;
+  margin: auto;
+  padding: 10px 50px;
+  cursor: pointer;
+  transition: 0.4s;
+  display: none;
+}
+#sendInput {
+  border: 1px solid rgb(0, 53, 134);
+  background: rgba(20, 20, 20, 0.6);
+  font-size:25px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: white;
+  position: absolute;
+  margin-top: 43%;
+  margin-left: 1684px;
+  padding: 1rem 2rem;
+  cursor: grabbing;
+  transition: 0.4s;
+  display: none;
+}
+#sendInput:hover {
+  background: rgba(0, 42, 116, 0.612);
+  /* padding: 10px 80px; */
+}
+#uploadButton:hover {
+  background: rgba(20, 20, 20, 0.8);
+  padding: 10px 80px;
+}
+
+#ePreviewPdf {
+  width: 35rem;
+  height: 57rem;
+  display: none;
+}
+
+div[id^="bmno"] {
+  border: 0px solid #62a6ff;
+  /* background: rgba(20, 20, 20, 0.6); */
+  position: relative;
+  font-size: 18px;
+  color: white;
+  margin-top: 19px;
+  padding: 1px 10px;
+  cursor: pointer;
+  transition: 0.1s;
+  /* overflow-y: scroll; */
+}
+
+#bmInputContainer {
+  position: relative;
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  margin-top: 0%;
+  margin-right: auto;
+  /* margin-right: auto; */
+  overflow-y: scroll;
+  width: auto;
+}

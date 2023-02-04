@@ -39,6 +39,8 @@ function deleteThisBm(elemParentParentId, elemParentId){
         for(let i = 0; i < epp.children.length; i++){
             epp.children[i].id = `bmno_${i+1}`;
         }
+    } else {
+        displayMessage.innerText = "Can not remove.\nAt least one bookmark required.";
     }
     fixTabs(epp);
     showIndents();
@@ -72,12 +74,12 @@ function addBmFieldBelow(elemParentId){
 
     let text = `
     <div id="bmno_${nextIdNo}" data-tablevel="${parent.dataset.tablevel}">
-    <button class="inc" type="button" onclick="incIndent(this, this.parentElement, this.parentElement.parentElement)" >[+->]</button>
-    <button class="dec" type="button" onclick="decIndent(this, this.parentElement, this.parentElement.parentElement)" >[<+-]</button>
-    <input class="pno"  type="number" onblur="checkPno(this)">
-    <input class="name" type="text" onblur="checkName(this)">
-    <button class="new" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
-    <button class="del" type="button" onclick="deleteThisBm(this.parentElement.parentElement.id, this.parentElement.id)" >[-]</button>
+    <button class="join-btn" type="button" onclick="incIndent(this, this.parentElement, this.parentElement.parentElement)" >[->]</button>
+    <button class="join-btn" type="button" onclick="decIndent(this, this.parentElement, this.parentElement.parentElement)" >[<-]</button>
+    <input id="pno" class="join-btn"  type="number" onblur="checkPno(this)">
+    <input id="name" id="pno"class="join-btn" type="text" onblur="checkName(this)">
+    <button class="join-btn" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
+    <button class="join-btn" type="button" onclick="deleteThisBm(this.parentElement.parentElement.id, this.parentElement.id)" >[-]</button>
     </div>
     `;
     parent.insertAdjacentHTML("afterend", text);
@@ -91,7 +93,7 @@ function addBmFieldBelow(elemParentId){
 
 function showIndents(){
     for(var child of bmInputContainer.children){
-        child.style.marginLeft = `${child.dataset.tablevel * 20}px`;
+        child.style.marginLeft = `${child.dataset.tablevel * 40}px`;
     }
 }
 
@@ -185,7 +187,7 @@ function progressHandler(event){
     let loadedSize = event.loaded;
 
     let pUploadedBytesInfo = document.getElementById("pMessage");
-    pUploadedBytesInfo.innerHTML = `Uploaded: ${(loadedSize/(1024*1024)).toFixed(1)}MB of ${(totalSize/(1024*1024)).toFixed(1)}MB(${loadedSize/totalSize * 100}%)`; 
+    pUploadedBytesInfo.innerHTML = `Uploaded: ${(loadedSize/(1024*1024)).toFixed(1)}MB of ${(totalSize/(1024*1024)).toFixed(1)}MB(${(loadedSize/totalSize * 100).toFixed(1)}%)`; 
 }
 //successful completion
 function successUpload(event){
@@ -222,6 +224,8 @@ function completeUpload(data){
         showPageCount(data.pages);
         previewPdf(data.name);
         bmInputContainer.style.display = "block";
+        document.getElementById("bmno_1").querySelector("#new").click();
+        document.getElementById("bmno_1").querySelector("#del").click();
         addBmButton.style.display = "block";
 
         document.getElementById("form_bookmark").style.display = "none";
@@ -229,7 +233,7 @@ function completeUpload(data){
         
     }
     else {
-        showPageCount(data.message);
+        // showPageCount(data.message);
         previewPdf(undefined);
         bmInputContainer.style.display = "none";
         addBmButton.style.display = "none";
@@ -245,10 +249,22 @@ source.addEventListener("message", message => {
     console.log("Got ", got);
     
     if (got.message == "conversion-done"){
+         displayMessage.innerText = "Downloading file, Please wait.\nRefresh page to start again.";
+        
         convertedName = got.name;
         downloadPDF(convertedName);
-    } else {
- 
+    } 
+    if(got.message == "processing-file"){
+        displayMessage.innerText = "Server is processing file, please wait.";
+        
+    }
+    if(got.message == "pages"){
+        displayMessage.innerText = `Pages: ${pages}`;
+
+    }
+    if(got.message == "Format unacceptable"){
+        displayMessage.innerText = `Format unacceptable`;
+
     }
 });
 // bmInputContainer.style.display = "block";
@@ -284,13 +300,6 @@ function downloadPDF(file){
             //deal with your error state here
         }
 }
-function saveBlob(blob, fileName) {
-    var a = document.createElement('a');
-    a.href = window.URL.createObjectURL(blob);
-    a.download = fileName;
-    a.dispatchEvent(new MouseEvent('click'));
-}
-
 
 
 }
@@ -298,8 +307,8 @@ function saveBlob(blob, fileName) {
 function generateBmInfo(){
     let ret = [];
     for (let child of bmInputContainer.children){
-        let pno = child.querySelector(".pno").value;
-        let title = child.querySelector(".name").value;
+        let pno = child.querySelector("#pno").value;
+        let title = child.querySelector("#name").value;
         if(pno==='' || title ==='' ){
             return -1;
         }
@@ -319,7 +328,7 @@ function generateBmInfo(){
 function sendBmJson(){
     let bmInfo = generateBmInfo();
     if(bmInfo == -1){
-        displayMessage.innerText = "Remove empty bookmarks";
+        displayMessage.innerText = "Remove empty bookmarks first";
         return;
     }
     let ret = {};

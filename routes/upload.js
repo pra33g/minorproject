@@ -75,6 +75,7 @@ router.post("/", async (req, res) => {
             }
 
         } else {
+            sendSse({"message": "Format unaccepatble"})
             res.json(httpObject(httpCode.NOT_ACCEPTABLE));
         }
         

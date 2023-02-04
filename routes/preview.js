@@ -1,5 +1,5 @@
 /*jshint esversion: 8 */
-
+const {sendSse} = require('./sse.js');
 const express = require('express');
 //fs to get system filesystem access
 const fs = require('fs');
@@ -14,6 +14,7 @@ const log = console.log.bind(console);
 const router = express.Router();
 
 router.get("/", (req, res) => {
+    // sendSse({"message":`pages`})
     let pdfname = req.query.name;
     let path = __dirname+"/upload/"+pdfname;
     res.sendFile(path);

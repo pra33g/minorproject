@@ -1,25 +1,57 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="icon" href="../favicon/favicon.ico"> 
-        
+        <link rel="icon" href="./remove.png"> 
+        <link rel="stylesheet" href="styles.css">
     </head>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     
     <body>
-        <form id="form_bookmark" action="/bookmark" enctype="multipart/form-data" method="POST">
-                <input type="file" id="pdfbm_upload" accept="application/pdf" name="pdfbm_upload" multiple="multiple"><br>
-                <input type="submit" id="uploadButton" value="Upload" style="display: none">
-        </form>
-        <div id="dStatus">
-            <p id="pMessage"></p>
-        </div>
-        <div id="dPreviewPdf">
-            <embed id="ePreviewPdf" src="" width="400px" height="400px"/>
-        </div>
+        
+        <div class="signupSection">
+            
+            <form id="form_bookmark" action="/bookmark" enctype="multipart/form-data" method="POST" class="signupForm">
+                <h2 style="font-size: 3rem;">Upload Your Files</h2>
+                
+                    
+                        <input type="file" id="pdfbm_upload" class="inputFields" accept="application/pdf" name="pdfbm_upload" multiple="multiple"><br>
+                    
+                    <br />
+                    
+                        <input type="submit" id="uploadButton" value="Upload">
 
-        <div id="bmInputContainer" style="display:none">
+            </form>   
+           
+            <embed id="ePreviewPdf" src=""/>
+
+            <div id="bmInputContainer" style="display:none">
+                <div id="bmno_1"  data-tablevel="0">
+                    <button class="join-btn" type="button" onclick="incIndent(this, this.parentElement, this.parentElement.parentElement)" >[>]</button>
+                    <button class="join-btn" type="button" onclick="decIndent(this, this.parentElement, this.parentElement.parentElement)" >[<]</button>
+                    <input id="pno" class="inputFields1"  type="number" onblur="checkPno(this)">
+                    <input id="name" class="inputFields1" type="text" onblur="checkName(this)">
+                    <button id="new" class="join-btn" type="button" onclick="addBmFieldBelow(this.parentElement.id)">[+]</button>
+                    <button id="del" class="join-btn" type="button" onclick="deleteThisBm(this.parentElement.parentElement.id, this.parentElement.id)" >[-]</button>
+                </div>
+            </div>
+            <div id="dStatus">
+                <p id="pMessage" style="display: none"></p>
+            </div>
+            <button type="button" id="sendInput" onclick="sendBmJson()" style="display: none">Download</button>
+            
+            
+        </div>
+        <!-- <img class="image" src="./remove.png" height="70px" width="70px"> -->
+        <!-- <div id="dStatus">
+            <p id="pMessage"></p>
+        </div> -->
+        
+        <!-- <div id="dPreviewPdf">
+            <embed id="ePreviewPdf" src="" width="400px" height="400px"/>
+        </div> -->
+
+        <!-- <div id="bmInputContainer" style="display:none">
             <div id="bmno_1" data-tablevel="0">
                 <button class="inc" type="button" onclick="incIndent(this, this.parentElement, this.parentElement.parentElement)" >[+->]</button>
                 <button class="dec" type="button" onclick="decIndent(this, this.parentElement, this.parentElement.parentElement)" >[<+-]</button>
@@ -29,8 +61,7 @@
                 <button class="del" type="button" onclick="deleteThisBm(this.parentElement.parentElement.id, this.parentElement.id)" >[-]</button>
             </div>
         </div>
-        <button type="button" id="sendInput" onclick="sendBmJson()" style="display: none">Add bookmarks</button>
-
+        <button type="button" id="sendInput" onclick="sendBmJson()" style="display: none">Add bookmarks</button> -->
     </body>
 
     <script src="script.js"></script>

@@ -1,9 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="icon" href="favicon.ico?v=1.1"> 
-    </head>
-    <body>
-        <a href="./bookmark/bookmarksIndex.html">Bookmark</a>
-    </body>
+
+<head>
+  <link rel="icon" href="favicon.ico?v=1.1">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sanchez&display=swap" rel="stylesheet">
+</head>
+
+<body >
+  <div class="signupSection">
+    <button id="join-btn" onclick="window.location.href='./bookmark/bookmarksIndex.html'">
+      Begin
+    </button>
+    <h1 onmouseenter="typeWriter()" onmouseleave="removeText()">
+      Add bookmarks to PDF.<br>
+    </h1>
+    <img class="image" src="./bookmark/PDFSynth.png" height="70px" width="70px">
+
+  </div>
+</body>
+<script src="script.js"></script>
+
 </html>
