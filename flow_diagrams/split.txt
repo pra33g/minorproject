@@ -1,4 +1,0 @@
-split 
-
-home -> merge pdf -> upload button with additional upload buttons
--> single button to upload all -> download 
