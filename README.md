@@ -9,8 +9,6 @@
 
 <ol type="i">
 <li> Bookmarks </li>
-<li> Merge (future) </li>
-<li> Split (future) </li>
 </ol>
 
 <h2>Design Specs:</h2>
